@@ -22,10 +22,22 @@ import Foundation
 
 extension Array: Randomizable {
     public static func randomized() -> [Element] {
-        guard let type = Element.self as? Randomizable.Type else {
-            return []
+        let count = Int.random(0...100)
+        return randomized(preferredCount: count)
+    }
+
+    static func randomized(preferredCount: Int) -> [Element] {
+        if let type = Element.self as? Randomizable.Type {
+            return (0 ..< preferredCount)
+                .compactMap { _ in type.randomized() as? Element }
+        } else if let type = Element.self as? Codable.Type {
+            do {
+                return try (0 ..< preferredCount)
+                    .compactMap { _ in try type.randomized() as? Element }
+            } catch {
+                return []
+            }
         }
-        let count = Int.random(1...100)
-        return (0 ..< count).compactMap { _ in type.randomized() as? Element }
+        return []
     }
 }
