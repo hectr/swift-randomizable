@@ -22,6 +22,41 @@ import XCTest
 import Randomizable
 
 final class RandomizableSwiftTests: XCTestCase {
+    private struct Foo: Codable, Equatable, Hashable {
+        let foo: Int
+    }
+
+    private enum Enum: String, Codable {
+        case none
+    }
+
+    func testArrayOfCodablesCanBeEmpty() {
+        XCTAssertTrue([Enum].randomized().isEmpty)
+    }
+
+    func testArrayOfCodablesCanBeNonEmpty() {
+        var done = false
+        for _ in 0...100 {
+            if ![Foo].randomized().isEmpty {
+                done = true
+                break
+            }
+        }
+        XCTAssertTrue(done)
+    }
+
+    func testArrayOfCodablesChanges() {
+        var done = false
+        let base = [Foo].randomized()
+        for _ in 0...100 {
+            if [Foo].randomized() != base {
+                done = true
+                break
+            }
+        }
+        XCTAssertTrue(done)
+    }
+
     func testArrayCanBeNonEmpty() {
         var done = false
         for _ in 0...100 {
@@ -60,6 +95,33 @@ final class RandomizableSwiftTests: XCTestCase {
         var done = false
         for _ in 0...100 {
             if !Bool.randomized() {
+                done = true
+                break
+            }
+        }
+        XCTAssertTrue(done)
+    }
+
+    func testDictionaryWithCodablesCanBeEmpty() {
+        XCTAssertTrue([String: Enum].randomized().isEmpty)
+    }
+
+    func testDictionaryWithCodablesCanBeNonEmpty() {
+        var done = false
+        for _ in 0...100 {
+            if ![String: Foo].randomized().isEmpty {
+                done = true
+                break
+            }
+        }
+        XCTAssertTrue(done)
+    }
+
+    func testDictionaryWithCodablesChanges() {
+        var done = false
+        let base = [Foo: UInt].randomized()
+        for _ in 0...100 {
+            if [Foo: UInt].randomized() != base {
                 done = true
                 break
             }
@@ -262,10 +324,16 @@ final class RandomizableSwiftTests: XCTestCase {
     }
 
     static var allTests = [
+        ("testArrayOfCodablesCanBeEmpty", testArrayOfCodablesCanBeEmpty),
+        ("testArrayOfCodablesCanBeNonEmpty", testArrayOfCodablesCanBeNonEmpty),
+        ("testArrayOfCodablesChanges", testArrayOfCodablesChanges),
         ("testArrayCanBeNonEmpty", testArrayCanBeNonEmpty),
         ("testArrayChanges", testArrayChanges),
         ("testBoolCanBeTrue", testBoolCanBeTrue),
         ("testBoolCanBeFalse", testBoolCanBeFalse),
+        ("testDictionaryWithCodablesCanBeEmpty", testDictionaryWithCodablesCanBeEmpty),
+        ("testDictionaryWithCodablesCanBeNonEmpty", testDictionaryWithCodablesCanBeNonEmpty),
+        ("testDictionaryWithCodablesChanges", testDictionaryWithCodablesChanges),
         ("testDictionaryCanBeNonEmpty", testDictionaryCanBeNonEmpty),
         ("testDictionaryChanges", testDictionaryChanges),
         ("testDoubleCanBePositive", testDoubleCanBePositive),
