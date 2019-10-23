@@ -21,15 +21,12 @@
 import Foundation
 
 extension Dictionary: Randomizable {
-    public static func randomized() -> [Key: Value] {
-        switch (Key.self is Randomizable.Type, Value.self is Randomizable.Type) {
+    public static func randomized() -> Dictionary {
+        switch (Key.self is Randomizable.Type || Key.self is Codable.Type,
+                Value.self is Randomizable.Type || Value.self is Codable.Type) {
         case (true, true):
             return [Key].randomized().reduce(into: [Key:Value]()) { dictionary, key in
-                var values: [Value] = []
-                while values.isEmpty {
-                    values = [Value].randomized()
-                }
-                dictionary[key] = values[0]
+                dictionary[key] = [Value].randomized(preferredCount: 1).first
             }
         case (_, _):
             return [:]
