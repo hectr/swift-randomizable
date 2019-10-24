@@ -18,49 +18,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import XCTest
-import Randomizable
+import Foundation
 
-final class RandomizableFoundationTests: XCTestCase {
-    func testDateChanges() {
-        var done = false
-        let base = Date.randomized()
-        for _ in 0...100 {
-            if Date.randomized() != base {
-                done = true
-                break
-            }
-        }
-        XCTAssertTrue(done)
+extension UUID: Randomizable {
+    public static func randomized() -> UUID {
+        return UUID()
     }
-
-    func testURLChanges() {
-        var done = false
-        let base = URL.randomized()
-        for _ in 0...100 {
-            if URL.randomized() != base {
-                done = true
-                break
-            }
-        }
-        XCTAssertTrue(done)
-    }
-
-    func testUUIDChanges() {
-         var done = false
-         let base = UUID.randomized()
-         for _ in 0...100 {
-             if UUID.randomized() != base {
-                 done = true
-                 break
-             }
-         }
-         XCTAssertTrue(done)
-     }
-
-    static var allTests = [
-        ("testDateChanges", testDateChanges),
-        ("testURLChanges", testURLChanges),
-        ("testUUIDChanges", testUUIDChanges),
-    ]
 }
