@@ -28,6 +28,10 @@ final class CodableRandomizedTests: XCTestCase {
                 let s: String?
                 let i: Int?
                 let a: [Double]?
+                let ui8: UInt8
+                let ui16: UInt16
+                let ui32: UInt32
+                let ui64: UInt64
             }
             let bool: Bool
             let unsignedInteger: UInt
@@ -50,7 +54,10 @@ final class CodableRandomizedTests: XCTestCase {
             }
             struct Inner: Codable {
                 let zero: Int
-                let integer: Int
+                let i8: Int8
+                let i16: Int16
+                let i32: Int32
+                let i64: Int64
             }
             let enumerated: Enum
             let date: Date

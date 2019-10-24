@@ -21,3 +21,7 @@
 import Foundation
 
 extension Int: Randomizable {}
+extension Int8: Randomizable {}
+extension Int16: Randomizable {}
+extension Int32: Randomizable {}
+extension Int64: Randomizable {}

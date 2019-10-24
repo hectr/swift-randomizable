@@ -21,3 +21,7 @@
 import Foundation
 
 extension UInt: Randomizable {}
+extension UInt8: Randomizable {}
+extension UInt16: Randomizable {}
+extension UInt32: Randomizable {}
+extension UInt64: Randomizable {}
