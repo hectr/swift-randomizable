@@ -58,9 +58,22 @@ final class RandomizableFoundationTests: XCTestCase {
          XCTAssertTrue(done)
      }
 
+    func testDataChanges() {
+        var done = false
+        let base = Data.randomized()
+        for _ in 0...100 {
+            if Data.randomized() != base {
+                done = true
+                break
+            }
+        }
+        XCTAssertTrue(done)
+    }
+
     static var allTests = [
         ("testDateChanges", testDateChanges),
         ("testURLChanges", testURLChanges),
         ("testUUIDChanges", testUUIDChanges),
+        ("testDataChanges", testDataChanges),
     ]
 }
