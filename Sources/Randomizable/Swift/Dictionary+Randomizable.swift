@@ -22,8 +22,8 @@ import Foundation
 
 extension Dictionary: Randomizable {
     public static func randomized() -> Dictionary {
-        switch (Key.self is Randomizable.Type || Key.self is Codable.Type,
-                Value.self is Randomizable.Type || Value.self is Codable.Type) {
+        switch (Key.self is Randomizable.Type || Key.self is Decodable.Type,
+                Value.self is Randomizable.Type || Value.self is Decodable.Type) {
         case (true, true):
             return [Key].randomized().reduce(into: [Key:Value]()) { dictionary, key in
                 dictionary[key] = [Value].randomized(preferredCount: 1).first

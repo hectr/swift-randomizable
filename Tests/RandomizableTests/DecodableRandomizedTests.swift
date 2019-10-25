@@ -21,10 +21,10 @@
 import XCTest
 import Randomizable
 
-final class CodableRandomizedTests: XCTestCase {
+final class DecodableRandomizedTests: XCTestCase {
     func testRandomized() {
-        struct Foo: Codable {
-            struct Inner: Codable {
+        struct Foo: Decodable {
+            struct Inner: Decodable {
                 let s: String?
                 let i: Int?
                 let a: [Double]?

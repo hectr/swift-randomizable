@@ -1,14 +1,14 @@
 # Randomizable
 
-`Codable` extension that adds a static method that can create randomized instances of the receiver.
+`Decodable` extension that adds a static method that can create randomized instances of the receiver.
 
 ## Example
 
-Given a some `Codable` type:
+Given a some `Decodable` type:
 
 ```swift
-struct Foo: Codable {
-    struct Inner: Codable {
+struct Foo: Decodable {
+    struct Inner: Decodable {
         let bool: Bool?
         let array: [String]
     }
@@ -26,7 +26,7 @@ import Randomizable
 let instance = try Foo.randomized() 
 ```
 
-See more examples in the [tests](./Tests/RandomizableTests/CodableRandomizedTests.swift).
+See more examples in the [tests](./Tests/RandomizableTests/DecodableRandomizedTests.swift).
 
 ## License
 

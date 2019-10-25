@@ -30,7 +30,7 @@ extension Array: Randomizable {
         if let type = Element.self as? Randomizable.Type {
             return (0 ..< preferredCount)
                 .compactMap { _ in type.randomized() as? Element }
-        } else if let type = Element.self as? Codable.Type {
+        } else if let type = Element.self as? Decodable.Type {
             do {
                 return try (0 ..< preferredCount)
                     .compactMap { _ in try type.randomized() as? Element }

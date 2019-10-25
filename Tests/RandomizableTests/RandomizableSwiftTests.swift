@@ -22,19 +22,19 @@ import XCTest
 import Randomizable
 
 final class RandomizableSwiftTests: XCTestCase {
-    private struct Foo: Codable, Equatable, Hashable {
+    private struct Foo: Decodable, Equatable, Hashable {
         let foo: Int
     }
 
-    private enum Enum: String, Codable {
+    private enum Enum: String, Decodable {
         case none
     }
 
-    func testArrayOfCodablesCanBeEmpty() {
+    func testArrayOfDecodablesCanBeEmpty() {
         XCTAssertTrue([Enum].randomized().isEmpty)
     }
 
-    func testArrayOfCodablesCanBeNonEmpty() {
+    func testArrayOfDecodablesCanBeNonEmpty() {
         var done = false
         for _ in 0...100 {
             if ![Foo].randomized().isEmpty {
@@ -45,7 +45,7 @@ final class RandomizableSwiftTests: XCTestCase {
         XCTAssertTrue(done)
     }
 
-    func testArrayOfCodablesChanges() {
+    func testArrayOfDecodablesChanges() {
         var done = false
         let base = [Foo].randomized()
         for _ in 0...100 {
@@ -102,11 +102,11 @@ final class RandomizableSwiftTests: XCTestCase {
         XCTAssertTrue(done)
     }
 
-    func testDictionaryWithCodablesCanBeEmpty() {
+    func testDictionaryWithDecodablesCanBeEmpty() {
         XCTAssertTrue([String: Enum].randomized().isEmpty)
     }
 
-    func testDictionaryWithCodablesCanBeNonEmpty() {
+    func testDictionaryWithDecodablesCanBeNonEmpty() {
         var done = false
         for _ in 0...100 {
             if ![String: Foo].randomized().isEmpty {
@@ -117,7 +117,7 @@ final class RandomizableSwiftTests: XCTestCase {
         XCTAssertTrue(done)
     }
 
-    func testDictionaryWithCodablesChanges() {
+    func testDictionaryWithDecodablesChanges() {
         var done = false
         let base = [Foo: UInt].randomized()
         for _ in 0...100 {
@@ -324,16 +324,16 @@ final class RandomizableSwiftTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testArrayOfCodablesCanBeEmpty", testArrayOfCodablesCanBeEmpty),
-        ("testArrayOfCodablesCanBeNonEmpty", testArrayOfCodablesCanBeNonEmpty),
-        ("testArrayOfCodablesChanges", testArrayOfCodablesChanges),
+        ("testArrayOfDecodablesCanBeEmpty", testArrayOfDecodablesCanBeEmpty),
+        ("testArrayOfDecodablesCanBeNonEmpty", testArrayOfDecodablesCanBeNonEmpty),
+        ("testArrayOfDecodablesChanges", testArrayOfDecodablesChanges),
         ("testArrayCanBeNonEmpty", testArrayCanBeNonEmpty),
         ("testArrayChanges", testArrayChanges),
         ("testBoolCanBeTrue", testBoolCanBeTrue),
         ("testBoolCanBeFalse", testBoolCanBeFalse),
-        ("testDictionaryWithCodablesCanBeEmpty", testDictionaryWithCodablesCanBeEmpty),
-        ("testDictionaryWithCodablesCanBeNonEmpty", testDictionaryWithCodablesCanBeNonEmpty),
-        ("testDictionaryWithCodablesChanges", testDictionaryWithCodablesChanges),
+        ("testDictionaryWithDecodablesCanBeEmpty", testDictionaryWithDecodablesCanBeEmpty),
+        ("testDictionaryWithDecodablesCanBeNonEmpty", testDictionaryWithDecodablesCanBeNonEmpty),
+        ("testDictionaryWithDecodablesChanges", testDictionaryWithDecodablesChanges),
         ("testDictionaryCanBeNonEmpty", testDictionaryCanBeNonEmpty),
         ("testDictionaryChanges", testDictionaryChanges),
         ("testDoubleCanBePositive", testDoubleCanBePositive),

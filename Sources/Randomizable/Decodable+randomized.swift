@@ -21,7 +21,7 @@
 import Foundation
 import Idioms
 
-extension Encodable where Self: Decodable {
+extension Decodable {
     /// Signature of the closure used for customizing the result of `randomized(encoding:)`.
     public typealias JSONEncoding = (Any.Type, [CodingKey]) throws -> Data?
 
@@ -89,7 +89,7 @@ extension Encodable where Self: Decodable {
     }
 }
 
-extension Encodable where Self: Decodable {
+extension Decodable {
     fileprivate static func guessRandom(previousSeedData: Data,
                                         key: CodingKey,
                                         codingPath: [CodingKey],
