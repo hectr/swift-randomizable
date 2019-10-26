@@ -44,6 +44,7 @@ extension RandomizableSwiftTests {
         ("testArrayOfDecodablesChanges", testArrayOfDecodablesChanges),
         ("testBoolCanBeFalse", testBoolCanBeFalse),
         ("testBoolCanBeTrue", testBoolCanBeTrue),
+        ("testCaseIterableEnumChanges", testCaseIterableEnumChanges),
         ("testDictionaryCanBeNonEmpty", testDictionaryCanBeNonEmpty),
         ("testDictionaryChanges", testDictionaryChanges),
         ("testDictionaryWithDecodablesCanBeEmpty", testDictionaryWithDecodablesCanBeEmpty),
