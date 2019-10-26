@@ -323,6 +323,23 @@ final class RandomizableSwiftTests: XCTestCase {
         XCTAssertTrue(done)
     }
 
+    func testCaseIterableEnumChanges() {
+        enum Foo: Randomizable, CaseIterable {
+            case f
+            case o0
+            case o1
+        }
+        var done = false
+        let base = Foo.randomized()
+        for _ in 0...100 {
+            if Foo.randomized() != base {
+                done = true
+                break
+            }
+        }
+        XCTAssertTrue(done)
+    }
+
     static var allTests = [
         ("testArrayOfDecodablesCanBeEmpty", testArrayOfDecodablesCanBeEmpty),
         ("testArrayOfDecodablesCanBeNonEmpty", testArrayOfDecodablesCanBeNonEmpty),
@@ -351,5 +368,6 @@ final class RandomizableSwiftTests: XCTestCase {
         ("testOptionalChanges", testOptionalChanges),
         ("testStringCanBeNonEmpty", testStringCanBeNonEmpty),
         ("testStringChanges", testStringChanges),
+        ("testCaseIterableEnumChanges", testCaseIterableEnumChanges),
     ]
 }
