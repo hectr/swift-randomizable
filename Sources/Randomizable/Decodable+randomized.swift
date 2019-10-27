@@ -161,7 +161,7 @@ extension Decodable {
         } else if String(describing: type) == String(describing: UnkeyedDecodingContainer.self) {
             return [Any]()
         } else { // assume KeyedDecodingContainer
-            return [AnyHashable: Any]()
+            return [String: Any]()
         }
     }
 }
