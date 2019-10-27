@@ -19,60 +19,57 @@
 // THE SOFTWARE.
 
 import XCTest
+import CodableUpdating
 import Randomizable
 
-final class DecodableRandomizedTests: XCTestCase {
-    func testRandomized() {
-        struct Foo: Decodable {
-            struct Inner: Decodable {
-                let s: String?
-                let i: Int?
-                let a: [Double]?
-                let ui8: UInt8
-                let ui16: UInt16
-                let ui32: UInt32
-                let ui64: UInt64
-            }
-            let bool: Bool
-            let unsignedInteger: UInt
-            let integer: Int
-            let float: Float
-            let double: Double
-            let string: String
-            let array: [String]
-            let nested: Inner
-        }
-        XCTAssertNoThrow(try Foo.randomized())
-    }
-
-    func testRandomizedWithCustomEncoding() {
-        struct Foo: Codable {
-            enum Enum: String, CaseIterable, Codable {
+final class CodableUpdatingTests: XCTestCase {
+    func test() throws {
+        struct Foo: Codable, Equatable {
+            enum Enum: String, CaseIterable, Codable, Equatable {
                 case a
                 case b
                 case c
             }
-            struct Inner: Codable {
+            struct Inner: Codable, Equatable {
+                let i: Int
                 let i8: Int8
                 let i16: Int16
                 let i32: Int32
-                let i64: [Int64]
+                let i64: Int64
+                let e: Enum
             }
-            let enumerated: Enum
+            let float: Float
+            let double: Double?
             let date: Date
             let url: URL
             let nested: Inner
         }
-        XCTAssertNoThrow(try Foo.randomized(customize: { type in
+        let foo = try Foo.randomized(customize: { type in
             if type == Foo.Enum.self, let random = Foo.Enum.allCases.randomElement() {
                 return random
             }
             return nil
-        }))
+        })
+        let newFloat = Float(0.3)
+        let newDouble: Double? = nil
+        let newDate = Date(timeIntervalSince1970: 0)
+        let newUrl = URL(string: "www.example.org")
+        let newNested = Foo.Inner(i: 0, i8: 1, i16: 2, i32: 3, i64: 4, e: .a)
+        let newEnum = Foo.Enum.b
+        let newFoo = foo
+            .updating(\.float, to: newFloat)
+            .updating(\.double, to: newDouble)
+            .updating(\.date, to: newDate)
+            .updating(\.url, to: newUrl)
+            .updating(\.nested, to: newNested.updating(\.e, to: newEnum))
+        XCTAssertEqual(newFoo.float, newFloat)
+        XCTAssertEqual(newFoo.double, newDouble)
+        XCTAssertEqual(newFoo.date, newDate)
+        XCTAssertEqual(newFoo.url, newUrl)
+        XCTAssertEqual(newFoo.nested.e, newEnum)
     }
 
     static var allTests = [
-        ("testRandomized", testRandomized),
-        ("testRandomizedWithCustomEncoding", testRandomizedWithCustomEncoding),
+        ("test", test),
     ]
 }
