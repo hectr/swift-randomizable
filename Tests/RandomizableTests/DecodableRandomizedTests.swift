@@ -65,14 +65,8 @@ final class DecodableRandomizedTests: XCTestCase {
             let nested: Inner
         }
         XCTAssertNoThrow(try Foo.randomized(encoding: { type, codingKeys in
-            if codingKeys.first?.stringValue == "enumerated",
+            if codingKeys.last?.stringValue == "enumerated",
                 let random = Foo.Enum.allCases.randomElement() {
-                return try JSONEncoder().encode(random)
-            } else if codingKeys.first?.stringValue == "date" {
-                let random = Date.randomized()
-                return try JSONEncoder().encode(random)
-            } else if codingKeys.first?.stringValue == "url" {
-                let random = URL.randomized()
                 return try JSONEncoder().encode(random)
             } else if codingKeys.last?.stringValue == "zero" {
                 let zero = 0

@@ -157,18 +157,36 @@ extension Decodable {
     
     private static func makeRandomValue(for type: Any.Type) throws -> Any? {
         if let randomizable = type.self as? Randomizable.Type {
-            return randomizable.randomized()
+            let anyValue =  randomizable.randomized()
+            let jsonValue = try anyValueToJsonValue(anyValue)
+            return jsonValue
         } else if String(describing: type) == String(describing: UnkeyedDecodingContainer.self) {
             return [Any]()
         } else { // assume KeyedDecodingContainer
             return [String: Any]()
         }
     }
+
+    private static func anyValueToJsonValue(_ value: Any) throws -> Any {
+        let valueData: Data
+        if let value = value as? Date {
+            valueData = try JSONEncoder().encode(value)
+        } else if let value = value as? URL {
+            valueData = try JSONEncoder().encode(value)
+        } else if let value = value as? UUID {
+            valueData = try JSONEncoder().encode(value)
+        } else {
+            return value
+        }
+        let jsonValue = try JSONSerialization.jsonObject(with: valueData, options: [.fragmentsAllowed])
+        return jsonValue
+    }
 }
 
 private protocol Optionable {
     var isNil: Bool { get }
 }
+
 extension Optional: Optionable {
     var isNil: Bool {
         switch self {
