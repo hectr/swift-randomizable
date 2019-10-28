@@ -20,12 +20,30 @@
 
 import Foundation
 
-enum Error: Swift.Error {
-    case invalidSeed(jsonString: String)
-    case unknownError(underlyingError: Swift.Error)
-    case unsupportedDecodingError(underlyingError: DecodingError)
-    case invalidJsonStringSeed(underlyingError: DecodingError)
-    case jsonIsNotDictionary(json: Any?)
-    case cannotConvertJsonToString(jsonData: Data)
-    case cannotMakeJsonValue(type: Any.Type)
+struct RandomDecoder: Decoder {
+    var codingPath: [CodingKey] {
+        []
+    }
+
+    var userInfo: [CodingUserInfoKey : Any] {
+        [:]
+    }
+
+    private let customize: Decodable.Randomizing?
+
+    init(customize: Decodable.Randomizing?) {
+        self.customize = customize
+    }
+
+    func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key : CodingKey {
+        KeyedDecodingContainer<Key>(RandomKeyedDecodingContainer<Key>(customize: customize))
+    }
+
+    func unkeyedContainer() throws -> UnkeyedDecodingContainer {
+        RandomUnkeyedDecodingContainer(customize: customize)
+    }
+
+    func singleValueContainer() throws -> SingleValueDecodingContainer {
+        RandomSingleValueDecodingContainer(customize: customize)
+    }
 }

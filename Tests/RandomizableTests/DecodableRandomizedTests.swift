@@ -53,24 +53,20 @@ final class DecodableRandomizedTests: XCTestCase {
                 case c
             }
             struct Inner: Codable {
-                let zero: Int
                 let i8: Int8
                 let i16: Int16
                 let i32: Int32
-                let i64: Int64
+                let i64: [Int64]
             }
             let enumerated: Enum
             let date: Date
             let url: URL
             let nested: Inner
         }
-        XCTAssertNoThrow(try Foo.randomized(encoding: { type, codingKeys in
-            if codingKeys.last?.stringValue == "enumerated",
+        XCTAssertNoThrow(try Foo.randomized(customize: { type in
+            if type == Foo.Enum.self,
                 let random = Foo.Enum.allCases.randomElement() {
-                return try JSONEncoder().encode(random)
-            } else if codingKeys.last?.stringValue == "zero" {
-                let zero = 0
-                return try JSONEncoder().encode(zero)
+                return random
             }
             return nil
         }))
