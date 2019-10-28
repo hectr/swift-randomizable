@@ -7,17 +7,18 @@ let package = Package(
     products: [
         .library(
             name: "Randomizable",
-            targets: ["Randomizable"]),
+            targets: ["Randomizable"]
+        ),
     ],
-    dependencies: [
-        .package(url: "https://github.com/hectr/swift-idioms.git", from: "1.7.0"),
-    ],
+    dependencies: [],
     targets: [
         .target(
             name: "Randomizable",
-            dependencies: ["Idioms"]),
+            dependencies: []
+        ),
         .testTarget(
             name: "RandomizableTests",
-            dependencies: ["Randomizable"]),
+            dependencies: ["Randomizable"]
+        ),
     ]
 )

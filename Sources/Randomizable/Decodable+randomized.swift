@@ -19,7 +19,6 @@
 // THE SOFTWARE.
 
 import Foundation
-import Idioms
 
 extension Decodable {
     /// Signature of the closure used for customizing the result of `randomized(customize:)`.
