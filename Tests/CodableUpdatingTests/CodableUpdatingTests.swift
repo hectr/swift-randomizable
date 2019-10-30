@@ -33,13 +33,13 @@ final class CodableUpdatingTests: XCTestCase {
             struct Inner: Codable, Equatable {
                 let i: Int
                 let i8: Int8
-                let i16: Int16
+                var i16: Int16
                 let i32: Int32
                 let i64: Int64
                 let e: Enum
             }
             let float: Float
-            let double: Double?
+            var double: Double?
             let date: Date
             let url: URL
             let nested: Inner

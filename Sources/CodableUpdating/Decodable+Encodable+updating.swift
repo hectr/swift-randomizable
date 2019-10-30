@@ -23,6 +23,12 @@ import Randomizable
 import Idioms
 
 extension Decodable where Self: Encodable {
+    public func updating<T: Codable>(_ keyPath: WritableKeyPath<Self, T>, to value: T) -> Self {
+        var copy = self
+        copy[keyPath: keyPath] = value
+        return copy
+    }
+
     public func updating<T: Codable>(_ keyPath: KeyPath<Self, T>, to value: T) -> Self {
         // Find all values contained in the receiver:
         let valuesStore = KeyedStore<[String]>() // <-- will map coding paths with their corresponding values
