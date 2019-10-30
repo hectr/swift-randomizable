@@ -20,16 +20,23 @@
 
 import Foundation
 
-@dynamicMemberLookup
-public protocol KeyValueDynamicLookup {
-    associatedtype Key
-    associatedtype Value
-    subscript(key: Key) -> Value? { get set }
+final class KeyedStore<Key: Hashable> {
+    var wrapped = [Key: Any]()
+
+    init() {}
+
+    subscript(_ key: Key) -> Any? {
+        get { wrapped[key] }
+        set { wrapped[key] = newValue }
+    }
 }
 
-extension KeyValueDynamicLookup where Key == String {
-    public subscript(dynamicMember member: String) -> Value? {
-        get { return self[member] }
-        set { self[member] = newValue }
+extension KeyedStore: Hashable {
+    static func == (lhs: KeyedStore<Key>, rhs: KeyedStore<Key>) -> Bool {
+        NSDictionary(dictionary: lhs.wrapped) == NSDictionary(dictionary: rhs.wrapped)
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(NSDictionary(dictionary: wrapped))
     }
 }

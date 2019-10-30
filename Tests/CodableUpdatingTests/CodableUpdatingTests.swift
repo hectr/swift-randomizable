@@ -25,7 +25,7 @@ import Randomizable
 final class CodableUpdatingTests: XCTestCase {
     func test() throws {
         struct Foo: Codable, Equatable {
-            enum Enum: String, CaseIterable, Codable, Equatable {
+            enum Enum: String, CaseIterable, Codable, Equatable, Randomizable {
                 case a
                 case b
                 case c
@@ -44,29 +44,30 @@ final class CodableUpdatingTests: XCTestCase {
             let url: URL
             let nested: Inner
         }
-        let foo = try Foo.randomized(customize: { type in
-            if type == Foo.Enum.self, let random = Foo.Enum.allCases.randomElement() {
-                return random
-            }
-            return nil
-        })
+        let foo = try Foo.randomized()
+
         let newFloat = Float(0.3)
         let newDouble: Double? = nil
         let newDate = Date(timeIntervalSince1970: 0)
-        let newUrl = URL(string: "www.example.org")
+        let newUrl = URL(string: "www.example.org")!
         let newNested = Foo.Inner(i: 0, i8: 1, i16: 2, i32: 3, i64: 4, e: .a)
         let newEnum = Foo.Enum.b
+        let newI = -19
+
         let newFoo = foo
             .updating(\.float, to: newFloat)
             .updating(\.double, to: newDouble)
             .updating(\.date, to: newDate)
             .updating(\.url, to: newUrl)
             .updating(\.nested, to: newNested.updating(\.e, to: newEnum))
+            .updating(\.nested.i, to: newI)
+
         XCTAssertEqual(newFoo.float, newFloat)
         XCTAssertEqual(newFoo.double, newDouble)
         XCTAssertEqual(newFoo.date, newDate)
         XCTAssertEqual(newFoo.url, newUrl)
         XCTAssertEqual(newFoo.nested.e, newEnum)
+        XCTAssertEqual(newFoo.nested.i, newI)
     }
 
     static var allTests = [

@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Features",
+        "repositoryURL": "https://github.com/refined-swift/Features.git",
+        "state": {
+          "branch": "master",
+          "revision": "67deecd844af335a77f6a1670cd16bd298fa9882",
+          "version": null
+        }
+      },
+      {
+        "package": "Idioms",
+        "repositoryURL": "https://github.com/hectr/swift-idioms.git",
+        "state": {
+          "branch": "master",
+          "revision": "62ab8f7a8fb57ba88cb4b8f5dbfd27a0a7dffe84",
+          "version": null
+        }
+      },
+      {
+        "package": "Wrapper",
+        "repositoryURL": "https://github.com/refined-swift/Wrapper.git",
+        "state": {
+          "branch": "master",
+          "revision": "a810b6473dc3d8ac21f0ce11335e3051bc89602e",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

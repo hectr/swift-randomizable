@@ -15,6 +15,8 @@ let package = Package(
         ),
     ],
     dependencies: [
+        .package(url: "https://github.com/refined-swift/Wrapper.git", .branch("master")),
+        .package(url: "https://github.com/hectr/swift-idioms.git", .branch("master")),
     ],
     targets: [
         .target(
@@ -23,7 +25,7 @@ let package = Package(
         ),
         .target(
             name: "CodableUpdating",
-            dependencies: ["Randomizable"]
+            dependencies: ["Wrapper", "Randomizable", "Idioms"]
         ),
         .testTarget(
             name: "RandomizableTests",

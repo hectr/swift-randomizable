@@ -20,4 +20,31 @@
 
 import Foundation
 
-extension Dictionary: KeyValueDynamicLookup {}
+struct KeyDecoder: Decoder {
+    var store: KeyedStore<String>
+    var values: KeyedStore<[String]>
+    
+    var codingPath: [CodingKey]
+    
+    var userInfo: [CodingUserInfoKey : Any] {
+        [:]
+    }
+    
+    init(codingPath: [CodingKey], store: KeyedStore<String>, values: KeyedStore<[String]>) {
+        self.codingPath = codingPath
+        self.store = store
+        self.values = values
+    }
+    
+    func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key : CodingKey {
+        KeyedDecodingContainer<Key>(KeyKeyedDecodingContainer<Key>(codingPath: codingPath, store: store, values: values))
+    }
+    
+    func unkeyedContainer() throws -> UnkeyedDecodingContainer {
+        KeyUnkeyedDecodingContainer(codingPath: codingPath, store: store, values: values)
+    }
+    
+    func singleValueContainer() throws -> SingleValueDecodingContainer {
+        KeySingleValueDecodingContainer(codingPath: codingPath, store: store, values: values)
+    }
+}
